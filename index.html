@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Estoque - Toners HP</title>
+
+<style>
+:root {
+  --azul: #123b5d;
+  --azul2: #176b9b;
+  --fundo: #f1f5f9;
+  --branco: #ffffff;
+  --texto: #243447;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+header {
+  background: var(--azul);
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 8px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 25px auto;
+  padding: 0 18px;
+}
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+.card h3 {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.card strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 28px;
+  color: var(--azul2);
+}
+
+.painel {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+h2 {
+  color: var(--azul);
+  margin-top: 0;
+}
+
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.campo label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+input, select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+input:focus, select:focus {
+  outline: 2px solid #93c5fd;
+  border-color: var(--azul2);
+}
+
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+button {
+  border: none;
+  padding: 11px 17px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.salvar {
+  background: var(--azul2);
+  color: white;
+}
+
+.exportar {
+  background: #15803d;
+  color: white;
+}
+
+.cancelar {
+  background: #64748b;
+  color: white;
+}
+
+.editar {
+  background: #f59e0b;
+  color: white;
+}
+
+.excluir {
+  background: #dc2626;
+  color: white;
+}
+
+button:hover {
+  opacity: .85;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filtros input, .filtros select {
+  max-width: 300px;
+}
+
+.tabela {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+th {
+  background: var(--azul);
+  color: white;
+  padding: 13px 10px;
+  font-size: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+tr:hover {
+  background: #eff6ff;
+}
+
+.acoes {
+  display: flex;
+  gap: 5px;
+}
+
+.acoes button {
+  padding: 7px 9px;
+  font-size: 12px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+@media(max-width: 600px) {
+  header h1 {
+    font-size: 21px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>CONTROLE DE ESTOQUE</h1>
+  <p>NASP | CENTRAL DE CÓPIAS | TONERS HP</p>
+</header>
+
+<main class="container">
+
+  <section class="resumo">
+    <div class="card">
+      <h3>Modelos cadastrados</h3>
+      <strong id="totalModelos">0</strong>
+    </div>
+
+    <div class="card">
+      <h3>Total de unidades</h3>
+      <strong id="totalUnidades">0</strong>
+    </div>
+
+    <div class="card">
+      <h3>Prateleira 1</h3>
+      <strong id="prateleira1">0</strong>
+    </div>
+
+    <div class="card">
+      <h3>Prateleira 2</h3>
+      <strong id="prateleira2">0</strong>
+    </div>
+  </section>
+
+  <section class="painel">
+    <h2 id="tituloFormulario">Cadastrar toner</h2>
+
+    <form id="formulario">
+      <div class="formulario">
+
+        <div class="campo">
+          <label>Série</label>
+          <input id="serie" placeholder="Número de série">
+        </div>
+
+        <div class="campo">
+          <label>Modelo completo</label>
+          <input id="modeloCompleto" placeholder="Ex: HP LaserJet ...">
+        </div>
+
+        <div class="campo">
+          <label>Modelo</label>
+          <input id="modelo" placeholder="Código do toner">
+        </div>
+
+        <div class="campo">
+          <label>Cor</label>
+          <select id="cor">
+            <option value="">Não identificada</option>
+            <option>Preto</option>
+            <option>Ciano</option>
+            <option>Magenta</option>
+            <option>Amarelo</option>
+            <option>Colorido</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Nº Prateleira</label>
+          <select id="prateleira">
+            <option value="1">Prateleira 1</option>
+            <option value="2">Prateleira 2</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Localidade</label>
+          <input id="localidade" value="NASP">
+        </div>
+
+        <div class="campo">
+          <label>Departamento</label>
+          <input id="departamento" value="CENTRAL DE CÓPIAS">
+        </div>
+
+        <div class="campo">
+          <label>Quantidade</label>
+          <input id="quantidade" type="number" min="1" value="1" required>
+        </div>
+
+      </div>
+
+      <div class="botoes">
+        <button class="salvar" type="submit">Salvar toner</button>
+        <button class="cancelar" type="button" onclick="limparFormulario()">Limpar</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="painel">
+    <h2>Estoque de toners</h2>
+
+    <div class="filtros">
+      <input id="pesquisa" placeholder="Pesquisar modelo, série ou código...">
+
+      <select id="filtroPrateleira">
+        <option value="">Todas as prateleiras</option>
+        <option value="1">Prateleira 1</option>
+        <option value="2">Prateleira 2</option>
+      </select>
+
+      <select id="filtroCor">
+        <option value="">Todas as cores</option>
+        <option>Preto</option>
+        <option>Ciano</option>
+        <option>Magenta</option>
+        <option>Amarelo</option>
+        <option>Colorido</option>
+      </select>
+    </div>
+
+    <div class="botoes">
+      <button class="exportar" onclick="exportarCSV()">
+        Exportar para Excel
+      </button>
+    </div>
+
+    <br>
+
+    <div class="tabela">
+      <table>
+        <thead>
+          <tr>
+            <th>ITEM</th>
+            <th>SÉRIE</th>
+            <th>MODELO COMPLETO</th>
+            <th>MODELO</th>
+            <th>COR</th>
+            <th>PRATELEIRA</th>
+            <th>LOCALIDADE</th>
+            <th>DEPARTAMENTO</th>
+            <th>QUANTIDADE</th>
+            <th>AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody id="listaEstoque"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Sistema de Controle de Estoque de Toners HP
+  <br>NASP - Central de Cópias
+</footer>
+
+<script>
+const CHAVE = "estoque_toners_nasp_v1";
+
+function criarEstoqueInicial() {
+  return Array.from({length: 16}, (_, i) => ({
+    id: i + 1,
+    serie: "",
+    modeloCompleto: "",
+    modelo: "",
+    cor: "",
+    prateleira: i < 8 ? "1" : "2",
+    localidade: "NASP",
+    departamento: "CENTRAL DE CÓPIAS",
+    quantidade: 1
+  }));
+}
+
+let estoque;
+
+try {
+  const salvo = localStorage.getItem(CHAVE);
+  estoque = salvo ? JSON.parse(salvo) : criarEstoqueInicial();
+
+  if (!Array.isArray(estoque)) {
+    estoque = criarEstoqueInicial();
+  }
+} catch {
+  estoque = criarEstoqueInicial();
+}
+
+let idEditando = null;
+
+function salvarDados() {
+  localStorage.setItem(CHAVE, JSON.stringify(estoque));
+}
+
+function escapar(valor) {
+  return String(valor ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+function renderizar() {
+  const busca = document.getElementById("pesquisa").value.toLowerCase();
+  const prateleira = document.getElementById("filtroPrateleira").value;
+  const cor = document.getElementById("filtroCor").value;
+
+  const filtrados = estoque.filter(t => {
+    const texto = [
+      t.serie, t.modeloCompleto, t.modelo, t.cor
+    ].join(" ").toLowerCase();
+
+    return texto.includes(busca) &&
+      (!prateleira || t.prateleira === prateleira) &&
+      (!cor || t.cor === cor);
+  });
+
+  document.getElementById("listaEstoque").innerHTML =
+    filtrados.map((t, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${escapar(t.serie)}</td>
+        <td>${escapar(t.modeloCompleto)}</td>
+        <td>${escapar(t.modelo)}</td>
+        <td>${escapar(t.cor || "A identificar")}</td>
+        <td>${escapar(t.prateleira)}</td>
+        <td>${escapar(t.localidade)}</td>
+        <td>${escapar(t.departamento)}</td>
+        <td>${Number(t.quantidade)}</td>
+        <td>
+          <div class="acoes">
+            <button class="editar" onclick="editar(${t.id})">Editar</button>
+            <button class="excluir" onclick="excluir(${t.id})">Excluir</button>
+          </div>
+        </td>
+      </tr>
+    `).join("");
+
+  const modelos = new Set(
+    estoque.map(t => t.modelo).filter(Boolean)
+  );
+
+  document.getElementById("totalModelos").textContent = modelos.size;
+
+  document.getElementById("totalUnidades").textContent =
+    estoque.reduce((s, t) => s + Number(t.quantidade || 0), 0);
+
+  document.getElementById("prateleira1").textContent =
+    estoque.filter(t => t.prateleira === "1")
+      .reduce((s, t) => s + Number(t.quantidade || 0), 0);
+
+  document.getElementById("prateleira2").textContent =
+    estoque.filter(t => t.prateleira === "2")
+      .reduce((s, t) => s + Number(t.quantidade || 0), 0);
+}
+
+document.getElementById("formulario").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const dados = {
+    serie: document.getElementById("serie").value.trim(),
+    modeloCompleto: document.getElementById("modeloCompleto").value.trim(),
+    modelo: document.getElementById("modelo").value.trim(),
+    cor: document.getElementById("cor").value,
+    prateleira: document.getElementById("prateleira").value,
+    localidade: document.getElementById("localidade").value.trim(),
+    departamento: document.getElementById("departamento").value.trim(),
+    quantidade: Number(document.getElementById("quantidade").value)
+  };
+
+  if (!Number.isInteger(dados.quantidade) || dados.quantidade < 1) {
+    alert("Informe uma quantidade válida.");
+    return;
+  }
+
+  if (idEditando !== null) {
+    estoque = estoque.map(t =>
+      t.id === idEditando ? {...t, ...dados} : t
+    );
+  } else {
+    const novoId = Math.max(0, ...estoque.map(t => t.id)) + 1;
+    estoque.push({id: novoId, ...dados});
+  }
+
+  salvarDados();
+  limparFormulario();
+  renderizar();
+});
+
+function editar(id) {
+  const t = estoque.find(item => item.id === id);
+  if (!t) return;
+
+  idEditando = id;
+
+  document.getElementById("serie").value = t.serie;
+  document.getElementById("modeloCompleto").value = t.modeloCompleto;
+  document.getElementById("modelo").value = t.modelo;
+  document.getElementById("cor").value = t.cor;
+  document.getElementById("prateleira").value = t.prateleira;
+  document.getElementById("localidade").value = t.localidade;
+  document.getElementById("departamento").value = t.departamento;
+  document.getElementById("quantidade").value = t.quantidade;
+
+  document.getElementById("tituloFormulario").textContent =
+    "Editar toner";
+
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function excluir(id) {
+  if (!confirm("Deseja realmente excluir este toner?")) return;
+
+  estoque = estoque.filter(t => t.id !== id);
+  salvarDados();
+  renderizar();
+}
+
+function limparFormulario() {
+  document.getElementById("formulario").reset();
+  document.getElementById("localidade").value = "NASP";
+  document.getElementById("departamento").value = "CENTRAL DE CÓPIAS";
+  document.getElementById("quantidade").value = 1;
+
+  idEditando = null;
+
+  document.getElementById("tituloFormulario").textContent =
+    "Cadastrar toner";
+}
+
+function exportarCSV() {
+  const colunas = [
+    "ITEM", "SERIE", "MODELO COMPLETO", "MODELO",
+    "COR", "Nº PRATELEIRA", "LOCALIDADE",
+    "DEPARTAMENTO", "QUANTIDADE"
+  ];
+
+  const linhas = estoque.map((t, i) => [
+    i + 1, t.serie, t.modeloCompleto, t.modelo,
+    t.cor, t.prateleira, t.localidade,
+    t.departamento, t.quantidade
+  ]);
+
+  const csv = [colunas, ...linhas]
+    .map(linha => linha.map(valor =>
+      '"' + String(valor ?? "").replace(/"/g, '""') + '"'
+    ).join(";"))
+    .join("\r\n");
+
+  const arquivo = new Blob(
+    ["\uFEFF" + csv],
+    {type: "text/csv;charset=utf-8;"}
+  );
+
+  const url = URL.createObjectURL(arquivo);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "estoque_toners_NASP.csv";
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("pesquisa")
+  .addEventListener("input", renderizar);
+
+document.getElementById("filtroPrateleira")
+  .addEventListener("change", renderizar);
+
+document.getElementById("filtroCor")
+  .addEventListener("change", renderizar);
+
+renderizar();
+</script>
+
+</body>
+</html>
