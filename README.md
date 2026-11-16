@@ -63,6 +63,6 @@ Criar dashboard com indicadores de estoque.
 Implementar exportação de relatórios.
 👨‍💻 Autor
 
-Desenvolvido por [Seu Nome].
+Desenvolvido por Kauê Serrão.
 
 ⭐ Projeto desenvolvido com o objetivo de otimizar o gerenciamento e o controle de estoque de toners, tornando o processo mais eficiente e organizado.
