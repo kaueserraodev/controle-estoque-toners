@@ -1,68 +1,70 @@
-🖨️ Controle de Estoque de Toners
-📌 Sobre o Projeto
+<div align="center">
 
-O Controle de Estoque de Toners é um sistema desenvolvido para facilitar o gerenciamento e o acompanhamento do estoque de toners utilizados em impressoras.
+# 🖨️ Controle de Estoque de Toners
 
-O objetivo é proporcionar maior organização, controle e praticidade no gerenciamento dos suprimentos, permitindo acompanhar as entradas, saídas e quantidades disponíveis em estoque.
+**Sistema para gerenciamento, rastreamento e controle eficiente de suprimentos de impressão.**
 
-🎯 Objetivos
-Controlar a quantidade de toners disponíveis em estoque.
-Registrar entradas de novos toners.
-Registrar saídas e retiradas de toners.
-Acompanhar o histórico de movimentações.
-Facilitar a identificação de toners com estoque baixo.
-Reduzir perdas e evitar a falta de suprimentos.
-⚙️ Funcionalidades
-Cadastro de toners: registro das informações dos produtos.
-Controle de estoque: acompanhamento das quantidades disponíveis.
-Entrada de produtos: registro de reposições.
-Saída de produtos: registro de retiradas e utilização.
-Consulta de estoque: visualização dos itens cadastrados.
-Histórico de movimentações: acompanhamento das alterações realizadas.
-Alerta de estoque mínimo: identificação de produtos que precisam de reposição.
-🛠️ Tecnologias Utilizadas
-[Inserir linguagem de programação]
-[Inserir framework ou biblioteca]
-[Inserir banco de dados]
-[Inserir outras tecnologias utilizadas]
-🚀 Como Executar o Projeto
-Clone este repositório:
-bash
-git clone URL_DO_REPOSITORIO
+![Status do Projeto](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge)
+![Licença](https://img.shields.io/badge/Licen%C3%A7a-MIT-blue?style=for-the-badge)
 
-Acesse a pasta do projeto:
-bash
-cd controle-estoque-toners
+[Sobre](#-sobre-o-projeto) •
+[Funcionalidades](#-funcionalidades) •
+[Tecnologias](#-tecnologias-utilizadas) •
+[Como Executar](#-como-executar-o-projeto) •
+[Estrutura](#-estrutura-do-projeto) •
+[Roadmap](#-melhorias-futuras) •
+[Autor](#-autor)
 
-Instale as dependências necessárias:
-bash
-# Inserir comando de instalação
+</div>
 
-Configure as variáveis de ambiente e o banco de dados, caso necessário.
-Execute a aplicação:
-bash
-# Inserir comando para iniciar o projeto
+---
 
-📂 Estrutura do Projeto
-text
-controle-estoque-toners/
-├── src/
-├── database/
-├── assets/
-├── README.md
-└── ...
+## 📌 Sobre o Projeto
 
+O **Controle de Estoque de Toners** é uma solução desenvolvida para otimizar e centralizar a gestão de suprimentos de impressão. 
 
-A estrutura poderá variar de acordo com a organização do projeto.
+Muitas empresas e departamentos enfrentam dificuldades com a falta repentina de insumos ou compras desnecessárias por falta de visibilidade. Este sistema resolve esse problema oferecendo controle preciso sobre entradas, saídas, saldo atual e histórico completo de movimentações, garantindo maior previsibilidade e organização operacional.
 
-📋 Melhorias Futuras
-Implementar relatórios de movimentação.
-Adicionar filtros para facilitar as consultas.
-Implementar controle de usuários e permissões.
-Criar dashboard com indicadores de estoque.
-Implementar exportação de relatórios.
-👨‍💻 Autor
+### 🎯 Principais Objetivos
+* **Visibilidade em tempo real:** Acompanhar com exatidão a quantidade de toners disponíveis.
+* **Rastreabilidade:** Manter um histórico detalhado de todas as reposições e retiradas.
+* **Prevenção de rupturas:** Identificar rapidamente itens com estoque crítico para evitar a paralisação das atividades.
+* **Redução de custos:** Minimizar perdas, extravios e compras emergenciais.
 
-Desenvolvido por Kauê Serrão.
+---
 
-⭐ Projeto desenvolvido com o objetivo de otimizar o gerenciamento e o controle de estoque de toners, tornando o processo mais eficiente e organizado.
+## ⚙️ Funcionalidades
+
+* **Cadastro de Toners:** Registro completo de modelos, compatibilidade com impressoras e estoque mínimo.
+* **Gestão de Entradas e Saídas:** Lançamento ágil de novas compras/reposições e baixas por utilização.
+* **Consulta Rápida:** Visualização clara e organizada de todos os itens cadastrados e seus respectivos saldos.
+* **Histórico de Movimentações:** Log auditável com data, tipo de operação e quantidade movimentada.
+* **Alerta de Estoque Mínimo:** Sinalização visual para suprimentos que atingiram o limite crítico de reposição.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+As seguintes ferramentas e tecnologias foram utilizadas na construção do projeto:
+
+* **Linguagem:** `[Ex: Python 3.11 / JavaScript / C#]`
+* **Framework / Biblioteca:** `[Ex: React / Django / Node.js / Spring Boot]`
+* **Banco de Dados:** `[Ex: PostgreSQL / MySQL / SQLite]`
+* **Outras Ferramentas:** `[Ex: Docker / Git / Tailwind CSS]`
+
+---
+
+## 🚀 Como Executar o Projeto
+
+Siga os passos abaixo para rodar a aplicação localmente em sua máquina.
+
+### Pré-requisitos
+Antes de começar, certifique-se de ter instalado em sua máquina:
+* [Git](https://git-scm.com)
+* `[Inserir runtime/gerenciador de pacotes, ex: Node.js v18+ / Python 3.10+]`
+
+### Passo a passo
+
+1. **Clone o repositório:**
+   ```bash
+   git clone [URL_DO_REPOSITORIO]
