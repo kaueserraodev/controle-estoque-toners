@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -60,12 +59,19 @@ header h1 {
 .card h3 {
   margin: 0;
   color: #64748b;
-  font-size: 14px;
+  font-size: 13px;
+}
+
+.card small {
+  display: block;
+  color: #94a3b8;
+  font-size: 11px;
+  margin-top: 2px;
 }
 
 .card strong {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 28px;
   color: var(--azul2);
 }
@@ -161,7 +167,7 @@ button:hover {
 }
 
 .filtros input, .filtros select {
-  max-width: 300px;
+  max-width: 260px;
 }
 
 .tabela {
@@ -171,7 +177,7 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1000px;
+  min-width: 1120px;
 }
 
 th {
@@ -238,13 +244,27 @@ footer {
     </div>
 
     <div class="card">
-      <h3>Prateleira 1</h3>
-      <strong id="prateleira1">0</strong>
+      <h3>Armário 1</h3>
+      <small>TONERS E786 & 4303</small>
+      <strong id="armario1">0</strong>
     </div>
 
     <div class="card">
-      <h3>Prateleira 2</h3>
-      <strong id="prateleira2">0</strong>
+      <h3>Armário 2</h3>
+      <small>TONERS 432</small>
+      <strong id="armario2">0</strong>
+    </div>
+
+    <div class="card">
+      <h3>Armário 3</h3>
+      <small>TONER X579</small>
+      <strong id="armario3">0</strong>
+    </div>
+
+    <div class="card">
+      <h3>Armário 4</h3>
+      <small>TONERS E645</small>
+      <strong id="armario4">0</strong>
     </div>
   </section>
 
@@ -253,6 +273,26 @@ footer {
 
     <form id="formulario">
       <div class="formulario">
+
+        <div class="campo">
+          <label>Nº Armário</label>
+          <select id="numArmario">
+            <option value="1">Armário 1</option>
+            <option value="2">Armário 2</option>
+            <option value="3">Armário 3</option>
+            <option value="4">Armário 4</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Armário (Linha de Toners)</label>
+          <select id="armario">
+            <option value="TONERS E786 & 4303">TONERS E786 & 4303</option>
+            <option value="TONERS 432">TONERS 432</option>
+            <option value="TONER X579">TONER X579</option>
+            <option value="TONERS E645">TONERS E645</option>
+          </select>
+        </div>
 
         <div class="campo">
           <label>Série</label>
@@ -278,14 +318,6 @@ footer {
             <option>Magenta</option>
             <option>Amarelo</option>
             <option>Colorido</option>
-          </select>
-        </div>
-
-        <div class="campo">
-          <label>Nº Prateleira</label>
-          <select id="prateleira">
-            <option value="1">Prateleira 1</option>
-            <option value="2">Prateleira 2</option>
           </select>
         </div>
 
@@ -319,10 +351,20 @@ footer {
     <div class="filtros">
       <input id="pesquisa" placeholder="Pesquisar modelo, série ou código...">
 
-      <select id="filtroPrateleira">
-        <option value="">Todas as prateleiras</option>
-        <option value="1">Prateleira 1</option>
-        <option value="2">Prateleira 2</option>
+      <select id="filtroNumArmario">
+        <option value="">Todos os nº de armários</option>
+        <option value="1">Armário 1</option>
+        <option value="2">Armário 2</option>
+        <option value="3">Armário 3</option>
+        <option value="4">Armário 4</option>
+      </select>
+
+      <select id="filtroArmario">
+        <option value="">Todas as linhas de toner</option>
+        <option value="TONERS E786 & 4303">TONERS E786 & 4303</option>
+        <option value="TONERS 432">TONERS 432</option>
+        <option value="TONER X579">TONER X579</option>
+        <option value="TONERS E645">TONERS E645</option>
       </select>
 
       <select id="filtroCor">
@@ -348,11 +390,12 @@ footer {
         <thead>
           <tr>
             <th>ITEM</th>
+            <th>Nº ARMÁRIO</th>
+            <th>ARMÁRIO</th>
             <th>SÉRIE</th>
             <th>MODELO COMPLETO</th>
             <th>MODELO</th>
             <th>COR</th>
-            <th>PRATELEIRA</th>
             <th>LOCALIDADE</th>
             <th>DEPARTAMENTO</th>
             <th>QUANTIDADE</th>
@@ -374,18 +417,36 @@ footer {
 <script>
 const CHAVE = "estoque_toners_nasp_v1";
 
+const MAPA_ARMARIOS = {
+  "1": "TONERS E786 & 4303",
+  "2": "TONERS 432",
+  "3": "TONER X579",
+  "4": "TONERS E645"
+};
+
+const MAPA_INVERSO = {
+  "TONERS E786 & 4303": "1",
+  "TONERS 432": "2",
+  "TONER X579": "3",
+  "TONERS E645": "4"
+};
+
 function criarEstoqueInicial() {
-  return Array.from({length: 16}, (_, i) => ({
-    id: i + 1,
-    serie: "",
-    modeloCompleto: "",
-    modelo: "",
-    cor: "",
-    prateleira: i < 8 ? "1" : "2",
-    localidade: "NASP",
-    departamento: "CENTRAL DE CÓPIAS",
-    quantidade: 1
-  }));
+  return Array.from({length: 16}, (_, i) => {
+    const num = String((i % 4) + 1);
+    return {
+      id: i + 1,
+      numArmario: num,
+      armario: MAPA_ARMARIOS[num],
+      serie: "",
+      modeloCompleto: "",
+      modelo: "",
+      cor: "",
+      localidade: "NASP",
+      departamento: "CENTRAL DE CÓPIAS",
+      quantidade: 1
+    };
+  });
 }
 
 let estoque;
@@ -396,12 +457,42 @@ try {
 
   if (!Array.isArray(estoque)) {
     estoque = criarEstoqueInicial();
+  } else {
+    estoque = estoque.map(item => {
+      const num = String(item.numArmario || MAPA_INVERSO[item.armario] || item.prateleira || "1");
+      const cat = MAPA_ARMARIOS[num] || item.armario || "";
+      return {
+        ...item,
+        numArmario: num,
+        armario: cat
+      };
+    });
   }
 } catch {
   estoque = criarEstoqueInicial();
 }
 
 let idEditando = null;
+
+// Sincronização automática no formulário
+document.getElementById("numArmario").addEventListener("change", function() {
+  document.getElementById("armario").value = MAPA_ARMARIOS[this.value] || "";
+});
+
+document.getElementById("armario").addEventListener("change", function() {
+  document.getElementById("numArmario").value = MAPA_INVERSO[this.value] || "1";
+});
+
+// Sincronização automática nos filtros
+document.getElementById("filtroNumArmario").addEventListener("change", function() {
+  document.getElementById("filtroArmario").value = MAPA_ARMARIOS[this.value] || "";
+  renderizar();
+});
+
+document.getElementById("filtroArmario").addEventListener("change", function() {
+  document.getElementById("filtroNumArmario").value = MAPA_INVERSO[this.value] || "";
+  renderizar();
+});
 
 function salvarDados() {
   localStorage.setItem(CHAVE, JSON.stringify(estoque));
@@ -419,16 +510,18 @@ function escapar(valor) {
 
 function renderizar() {
   const busca = document.getElementById("pesquisa").value.toLowerCase();
-  const prateleira = document.getElementById("filtroPrateleira").value;
+  const armario = document.getElementById("filtroArmario").value;
+  const numArmario = document.getElementById("filtroNumArmario").value;
   const cor = document.getElementById("filtroCor").value;
 
   const filtrados = estoque.filter(t => {
     const texto = [
-      t.serie, t.modeloCompleto, t.modelo, t.cor
+      t.armario, t.numArmario, t.serie, t.modeloCompleto, t.modelo, t.cor
     ].join(" ").toLowerCase();
 
     return texto.includes(busca) &&
-      (!prateleira || t.prateleira === prateleira) &&
+      (!armario || t.armario === armario) &&
+      (!numArmario || t.numArmario === numArmario) &&
       (!cor || t.cor === cor);
   });
 
@@ -436,11 +529,12 @@ function renderizar() {
     filtrados.map((t, i) => `
       <tr>
         <td>${i + 1}</td>
+        <td>${escapar(t.numArmario)}</td>
+        <td>${escapar(t.armario || "-")}</td>
         <td>${escapar(t.serie)}</td>
         <td>${escapar(t.modeloCompleto)}</td>
         <td>${escapar(t.modelo)}</td>
         <td>${escapar(t.cor || "A identificar")}</td>
-        <td>${escapar(t.prateleira)}</td>
         <td>${escapar(t.localidade)}</td>
         <td>${escapar(t.departamento)}</td>
         <td>${Number(t.quantidade)}</td>
@@ -462,24 +556,26 @@ function renderizar() {
   document.getElementById("totalUnidades").textContent =
     estoque.reduce((s, t) => s + Number(t.quantidade || 0), 0);
 
-  document.getElementById("prateleira1").textContent =
-    estoque.filter(t => t.prateleira === "1")
+  const contarPorNumArmario = (num) =>
+    estoque.filter(t => t.numArmario === num)
       .reduce((s, t) => s + Number(t.quantidade || 0), 0);
 
-  document.getElementById("prateleira2").textContent =
-    estoque.filter(t => t.prateleira === "2")
-      .reduce((s, t) => s + Number(t.quantidade || 0), 0);
+  document.getElementById("armario1").textContent = contarPorNumArmario("1");
+  document.getElementById("armario2").textContent = contarPorNumArmario("2");
+  document.getElementById("armario3").textContent = contarPorNumArmario("3");
+  document.getElementById("armario4").textContent = contarPorNumArmario("4");
 }
 
 document.getElementById("formulario").addEventListener("submit", e => {
   e.preventDefault();
 
   const dados = {
+    numArmario: document.getElementById("numArmario").value,
+    armario: document.getElementById("armario").value,
     serie: document.getElementById("serie").value.trim(),
     modeloCompleto: document.getElementById("modeloCompleto").value.trim(),
     modelo: document.getElementById("modelo").value.trim(),
     cor: document.getElementById("cor").value,
-    prateleira: document.getElementById("prateleira").value,
     localidade: document.getElementById("localidade").value.trim(),
     departamento: document.getElementById("departamento").value.trim(),
     quantidade: Number(document.getElementById("quantidade").value)
@@ -510,11 +606,13 @@ function editar(id) {
 
   idEditando = id;
 
+  const num = t.numArmario || "1";
+  document.getElementById("numArmario").value = num;
+  document.getElementById("armario").value = t.armario || MAPA_ARMARIOS[num];
   document.getElementById("serie").value = t.serie;
   document.getElementById("modeloCompleto").value = t.modeloCompleto;
   document.getElementById("modelo").value = t.modelo;
   document.getElementById("cor").value = t.cor;
-  document.getElementById("prateleira").value = t.prateleira;
   document.getElementById("localidade").value = t.localidade;
   document.getElementById("departamento").value = t.departamento;
   document.getElementById("quantidade").value = t.quantidade;
@@ -535,6 +633,8 @@ function excluir(id) {
 
 function limparFormulario() {
   document.getElementById("formulario").reset();
+  document.getElementById("numArmario").value = "1";
+  document.getElementById("armario").value = MAPA_ARMARIOS["1"];
   document.getElementById("localidade").value = "NASP";
   document.getElementById("departamento").value = "CENTRAL DE CÓPIAS";
   document.getElementById("quantidade").value = 1;
@@ -547,15 +647,13 @@ function limparFormulario() {
 
 function exportarCSV() {
   const colunas = [
-    "ITEM", "SERIE", "MODELO COMPLETO", "MODELO",
-    "COR", "Nº PRATELEIRA", "LOCALIDADE",
-    "DEPARTAMENTO", "QUANTIDADE"
+    "ITEM", "Nº ARMÁRIO", "ARMÁRIO", "SERIE", "MODELO COMPLETO", "MODELO",
+    "COR", "LOCALIDADE", "DEPARTAMENTO", "QUANTIDADE"
   ];
 
   const linhas = estoque.map((t, i) => [
-    i + 1, t.serie, t.modeloCompleto, t.modelo,
-    t.cor, t.prateleira, t.localidade,
-    t.departamento, t.quantidade
+    i + 1, t.numArmario, t.armario, t.serie, t.modeloCompleto, t.modelo,
+    t.cor, t.localidade, t.departamento, t.quantidade
   ]);
 
   const csv = [colunas, ...linhas]
@@ -581,9 +679,6 @@ function exportarCSV() {
 
 document.getElementById("pesquisa")
   .addEventListener("input", renderizar);
-
-document.getElementById("filtroPrateleira")
-  .addEventListener("change", renderizar);
 
 document.getElementById("filtroCor")
   .addEventListener("change", renderizar);
