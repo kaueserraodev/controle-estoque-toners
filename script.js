@@ -1,19 +1,23 @@
 const CHAVE = "estoque_toners_nasp_v1";
 const CHAVE_TEMA = "tema_estoque_toners_nasp";
 
-// Controle de Tema Claro / Escuro
-const seletorTema = document.getElementById("seletorTema");
+// Controle de Tema Claro (Sol) / Escuro (Lua)
+const btnTema = document.getElementById("btnTema");
+const iconeSol = document.getElementById("iconeSol");
+const iconeLua = document.getElementById("iconeLua");
 
 function aplicarTema(tema) {
   const escuro = tema === "escuro";
   document.body.classList.toggle("tema-escuro", escuro);
-  seletorTema.value = escuro ? "escuro" : "claro";
+  iconeSol.style.display = escuro ? "none" : "block";
+  iconeLua.style.display = escuro ? "block" : "none";
+  btnTema.title = escuro ? "Tema escuro ativo (clique para tema claro)" : "Tema claro ativo (clique para tema escuro)";
 }
 
 aplicarTema(localStorage.getItem(CHAVE_TEMA) || "claro");
 
-seletorTema.addEventListener("change", (e) => {
-  const novoTema = e.target.value;
+btnTema.addEventListener("click", () => {
+  const novoTema = document.body.classList.contains("tema-escuro") ? "claro" : "escuro";
   localStorage.setItem(CHAVE_TEMA, novoTema);
   aplicarTema(novoTema);
 });
