@@ -1,11 +1,53 @@
 :root {
+  --header-bg: #123b5d;
   --primaria: #123b5d;
   --secundaria: #176b9b;
   --fundo: #f4f6f9;
   --superficie: #ffffff;
   --texto: #1e293b;
+  --texto-label: #334155;
   --texto-mutado: #64748b;
   --borda: #dce1e7;
+  --borda-input: #cbd5e1;
+  --input-bg: #ffffff;
+  --auto-bg: #f8fafc;
+  --linha-hover: #f8fafc;
+  --linha-borda: #e2e8f0;
+  --btn-sec-bg: #ffffff;
+  --btn-sec-texto: #475569;
+  --btn-sec-hover: #f1f5f9;
+  --btn-editar-bg: #f8fafc;
+  --btn-editar-hover: #e2e8f0;
+  --btn-excluir-bg: #ffffff;
+  --btn-excluir-texto: #b91c1c;
+  --btn-excluir-borda: #fecaca;
+  --btn-excluir-hover: #fef2f2;
+}
+
+body.tema-escuro {
+  --header-bg: #0f172a;
+  --primaria: #e2e8f0;
+  --secundaria: #38bdf8;
+  --fundo: #0b1120;
+  --superficie: #1e293b;
+  --texto: #f1f5f9;
+  --texto-label: #cbd5e1;
+  --texto-mutado: #94a3b8;
+  --borda: #334155;
+  --borda-input: #475569;
+  --input-bg: #0f172a;
+  --auto-bg: #162032;
+  --linha-hover: #263349;
+  --linha-borda: #334155;
+  --btn-sec-bg: #0f172a;
+  --btn-sec-texto: #cbd5e1;
+  --btn-sec-hover: #334155;
+  --btn-editar-bg: #0f172a;
+  --btn-editar-hover: #334155;
+  --btn-excluir-bg: #0f172a;
+  --btn-excluir-texto: #f87171;
+  --btn-excluir-borda: #7f1d1d;
+  --btn-excluir-hover: #450a0a;
 }
 
 * {
@@ -18,18 +60,24 @@ body {
   background-color: var(--fundo);
   color: var(--texto);
   line-height: 1.5;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 header {
-  background-color: var(--primaria);
+  background-color: var(--header-bg);
   color: #ffffff;
-  padding: 26px 20px;
+  padding: 24px 20px;
   border-bottom: 3px solid var(--secundaria);
 }
 
 .header-inner {
   max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 
 header h1 {
@@ -44,6 +92,22 @@ header p {
   font-size: 13px;
   color: #cbd5e1;
   letter-spacing: 0.3px;
+}
+
+.btn-tema {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-tema:hover {
+  background-color: rgba(255, 255, 255, 0.22);
 }
 
 .container {
@@ -136,31 +200,31 @@ h2 {
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: #334155;
+  color: var(--texto-label);
   margin-bottom: 5px;
 }
 
 input, select {
   width: 100%;
   padding: 9px 11px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--borda-input);
   border-radius: 4px;
   font-size: 13.5px;
   color: var(--texto);
-  background-color: #ffffff;
+  background-color: var(--input-bg);
 }
 
 input:focus, select:focus {
   outline: none;
   border-color: var(--secundaria);
-  box-shadow: 0 0 0 2px rgba(23, 107, 155, 0.15);
+  box-shadow: 0 0 0 2px rgba(23, 107, 155, 0.2);
 }
 
 .campo-auto {
-  background-color: #f8fafc;
+  background-color: var(--auto-bg);
   color: var(--primaria);
   font-weight: 600;
-  border-color: #dce1e7;
+  border-color: var(--borda);
   cursor: default;
 }
 
@@ -179,26 +243,26 @@ input:focus, select:focus {
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
 .btn-primario {
-  background-color: var(--secundaria);
+  background-color: #176b9b;
   color: #ffffff;
 }
 
 .btn-primario:hover {
-  background-color: var(--primaria);
+  background-color: #123b5d;
 }
 
 .btn-secundario {
-  background-color: #ffffff;
-  color: #475569;
-  border-color: #cbd5e1;
+  background-color: var(--btn-sec-bg);
+  color: var(--btn-sec-texto);
+  border-color: var(--borda-input);
 }
 
 .btn-secundario:hover {
-  background-color: #f1f5f9;
+  background-color: var(--btn-sec-hover);
 }
 
 .btn-exportar {
@@ -237,7 +301,7 @@ table {
 }
 
 th {
-  background-color: var(--primaria);
+  background-color: var(--header-bg);
   color: #ffffff;
   padding: 11px 12px;
   font-size: 11.5px;
@@ -248,12 +312,12 @@ th {
 
 td {
   padding: 10px 12px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--linha-borda);
   font-size: 13px;
 }
 
 tbody tr:hover {
-  background-color: #f8fafc;
+  background-color: var(--linha-hover);
 }
 
 /* Indicador discreto de cor na tabela */
@@ -269,14 +333,14 @@ tbody tr:hover {
   height: 9px;
   border-radius: 50%;
   display: inline-block;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(128, 128, 128, 0.4);
 }
 
-.ponto-preto { background-color: #1e293b; }
+.ponto-preto { background-color: #0f172a; }
 .ponto-ciano { background-color: #06b6d4; }
 .ponto-magenta { background-color: #db2777; }
 .ponto-amarelo { background-color: #eab308; }
-.ponto-padrao { background-color: #cbd5e1; }
+.ponto-padrao { background-color: #94a3b8; }
 
 /* Ações da tabela */
 .acoes {
@@ -294,23 +358,23 @@ tbody tr:hover {
 }
 
 .editar {
-  background-color: #f8fafc;
+  background-color: var(--btn-editar-bg);
   color: var(--primaria);
-  border-color: #cbd5e1;
+  border-color: var(--borda-input);
 }
 
 .editar:hover {
-  background-color: #e2e8f0;
+  background-color: var(--btn-editar-hover);
 }
 
 .excluir {
-  background-color: #ffffff;
-  color: #b91c1c;
-  border-color: #fecaca;
+  background-color: var(--btn-excluir-bg);
+  color: var(--btn-excluir-texto);
+  border-color: var(--btn-excluir-borda);
 }
 
 .excluir:hover {
-  background-color: #fef2f2;
+  background-color: var(--btn-excluir-hover);
 }
 
 footer {
