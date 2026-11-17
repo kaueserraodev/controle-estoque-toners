@@ -214,12 +214,13 @@ input:focus, select:focus {
 .filtros {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
   margin-bottom: 16px;
 }
 
 .filtros input, .filtros select {
-  max-width: 290px;
+  max-width: 280px;
 }
 
 /* Tabela */
