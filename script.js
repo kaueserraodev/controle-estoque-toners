@@ -7,13 +7,6 @@ const MAPA_ARMARIOS = {
   "4": "TONERS E645"
 };
 
-const MAPA_INVERSO = {
-  "TONERS E786 & 4303": "1",
-  "TONERS 432": "2",
-  "TONER X579": "3",
-  "TONERS E645": "4"
-};
-
 function criarEstoqueInicial() {
   return Array.from({length: 16}, (_, i) => {
     const num = String((i % 4) + 1);
@@ -42,12 +35,11 @@ try {
     estoque = criarEstoqueInicial();
   } else {
     estoque = estoque.map(item => {
-      const num = String(item.numArmario || MAPA_INVERSO[item.armario] || item.prateleira || "1");
-      const cat = MAPA_ARMARIOS[num] || item.armario || "";
+      const num = String(item.numArmario || item.prateleira || "1");
       return {
         ...item,
         numArmario: num,
-        armario: cat
+        armario: MAPA_ARMARIOS[num] || ""
       };
     });
   }
@@ -57,24 +49,9 @@ try {
 
 let idEditando = null;
 
-// Sincronização automática no formulário
+// Atualiza automaticamente a linha de toners ao trocar o Nº do Armário
 document.getElementById("numArmario").addEventListener("change", function() {
   document.getElementById("armario").value = MAPA_ARMARIOS[this.value] || "";
-});
-
-document.getElementById("armario").addEventListener("change", function() {
-  document.getElementById("numArmario").value = MAPA_INVERSO[this.value] || "1";
-});
-
-// Sincronização automática nos filtros
-document.getElementById("filtroNumArmario").addEventListener("change", function() {
-  document.getElementById("filtroArmario").value = MAPA_ARMARIOS[this.value] || "";
-  renderizar();
-});
-
-document.getElementById("filtroArmario").addEventListener("change", function() {
-  document.getElementById("filtroNumArmario").value = MAPA_INVERSO[this.value] || "";
-  renderizar();
 });
 
 function salvarDados() {
@@ -93,17 +70,16 @@ function escapar(valor) {
 
 function renderizar() {
   const busca = document.getElementById("pesquisa").value.toLowerCase();
-  const armario = document.getElementById("filtroArmario").value;
   const numArmario = document.getElementById("filtroNumArmario").value;
   const cor = document.getElementById("filtroCor").value;
 
   const filtrados = estoque.filter(t => {
+    const linhaAtual = MAPA_ARMARIOS[t.numArmario] || t.armario || "";
     const texto = [
-      t.armario, t.numArmario, t.serie, t.modeloCompleto, t.modelo, t.cor
+      linhaAtual, t.numArmario, t.serie, t.modeloCompleto, t.modelo, t.cor
     ].join(" ").toLowerCase();
 
     return texto.includes(busca) &&
-      (!armario || t.armario === armario) &&
       (!numArmario || t.numArmario === numArmario) &&
       (!cor || t.cor === cor);
   });
@@ -113,7 +89,7 @@ function renderizar() {
       <tr>
         <td>${i + 1}</td>
         <td>${escapar(t.numArmario)}</td>
-        <td>${escapar(t.armario || "-")}</td>
+        <td>${escapar(MAPA_ARMARIOS[t.numArmario] || t.armario || "-")}</td>
         <td>${escapar(t.serie)}</td>
         <td>${escapar(t.modeloCompleto)}</td>
         <td>${escapar(t.modelo)}</td>
@@ -152,9 +128,10 @@ function renderizar() {
 document.getElementById("formulario").addEventListener("submit", e => {
   e.preventDefault();
 
+  const num = document.getElementById("numArmario").value;
   const dados = {
-    numArmario: document.getElementById("numArmario").value,
-    armario: document.getElementById("armario").value,
+    numArmario: num,
+    armario: MAPA_ARMARIOS[num],
     serie: document.getElementById("serie").value.trim(),
     modeloCompleto: document.getElementById("modeloCompleto").value.trim(),
     modelo: document.getElementById("modelo").value.trim(),
@@ -191,7 +168,7 @@ function editar(id) {
 
   const num = t.numArmario || "1";
   document.getElementById("numArmario").value = num;
-  document.getElementById("armario").value = t.armario || MAPA_ARMARIOS[num];
+  document.getElementById("armario").value = MAPA_ARMARIOS[num];
   document.getElementById("serie").value = t.serie;
   document.getElementById("modeloCompleto").value = t.modeloCompleto;
   document.getElementById("modelo").value = t.modelo;
@@ -235,7 +212,7 @@ function exportarCSV() {
   ];
 
   const linhas = estoque.map((t, i) => [
-    i + 1, t.numArmario, t.armario, t.serie, t.modeloCompleto, t.modelo,
+    i + 1, t.numArmario, MAPA_ARMARIOS[t.numArmario] || t.armario, t.serie, t.modeloCompleto, t.modelo,
     t.cor, t.localidade, t.departamento, t.quantidade
   ]);
 
@@ -262,6 +239,9 @@ function exportarCSV() {
 
 document.getElementById("pesquisa")
   .addEventListener("input", renderizar);
+
+document.getElementById("filtroNumArmario")
+  .addEventListener("change", renderizar);
 
 document.getElementById("filtroCor")
   .addEventListener("change", renderizar);
