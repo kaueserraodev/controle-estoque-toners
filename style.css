@@ -107,6 +107,13 @@ input:focus, select:focus {
   border-color: var(--azul2);
 }
 
+.campo-auto {
+  background-color: #e2e8f0;
+  color: var(--azul);
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
 .botoes {
   display: flex;
   flex-wrap: wrap;
@@ -159,7 +166,7 @@ button:hover {
 }
 
 .filtros input, .filtros select {
-  max-width: 260px;
+  max-width: 310px;
 }
 
 .tabela {
