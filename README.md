@@ -20,7 +20,7 @@ O **Controle de Estoque de Toners** foi criado para facilitar o dia a dia no ger
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-* **Linguagem:** `[Ex: HTML5 / CSS3 / JavaScript]`
+* **Linguagem:** ` HTML5 / CSS3 / JavaScript]`
 * **Framework / Biblioteca:** `[Ex: React / Node.js / Django]`
 * **Banco de Dados:** `[Ex: MySQL / PostgreSQL / SQLite]`
 
