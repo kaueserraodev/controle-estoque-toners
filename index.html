@@ -10,56 +10,68 @@
 <body>
 
 <header>
-  <h1>CONTROLE DE ESTOQUE</h1>
-  <p>NASP | CENTRAL DE CÓPIAS | TONERS HP</p>
+  <div class="header-inner">
+    <h1>CONTROLE DE ESTOQUE</h1>
+    <p>NASP | CENTRAL DE CÓPIAS | TONERS HP</p>
+  </div>
 </header>
 
 <main class="container">
 
   <section class="resumo">
     <div class="card">
-      <h3>Modelos cadastrados</h3>
+      <span class="card-label">Códigos cadastrados</span>
       <strong id="totalModelos">0</strong>
     </div>
 
     <div class="card">
-      <h3>Total de unidades</h3>
+      <span class="card-label">Total de unidades</span>
       <strong id="totalUnidades">0</strong>
     </div>
 
     <div class="card">
-      <h3>Armário 1</h3>
-      <small>TONERS E786 & 4303</small>
+      <div class="card-meta">
+        <span class="card-label">Armário 1</span>
+        <span class="card-sub">TONERS E786 & 4303</span>
+      </div>
       <strong id="armario1">0</strong>
     </div>
 
     <div class="card">
-      <h3>Armário 2</h3>
-      <small>TONERS 432</small>
+      <div class="card-meta">
+        <span class="card-label">Armário 2</span>
+        <span class="card-sub">TONERS 432</span>
+      </div>
       <strong id="armario2">0</strong>
     </div>
 
     <div class="card">
-      <h3>Armário 3</h3>
-      <small>TONER X579</small>
+      <div class="card-meta">
+        <span class="card-label">Armário 3</span>
+        <span class="card-sub">TONER X579</span>
+      </div>
       <strong id="armario3">0</strong>
     </div>
 
     <div class="card">
-      <h3>Armário 4</h3>
-      <small>TONERS E645</small>
+      <div class="card-meta">
+        <span class="card-label">Armário 4</span>
+        <span class="card-sub">TONERS E645</span>
+      </div>
       <strong id="armario4">0</strong>
     </div>
   </section>
 
   <section class="painel">
-    <h2 id="tituloFormulario">Cadastrar toner</h2>
+    <div class="painel-topo">
+      <h2 id="tituloFormulario">Cadastrar toner</h2>
+    </div>
 
     <form id="formulario">
       <div class="formulario">
 
         <div class="campo">
-          <label>Nº Armário</label>
+          <label for="numArmario">Nº Armário</label>
           <select id="numArmario">
             <option value="1">Armário 1</option>
             <option value="2">Armário 2</option>
@@ -69,66 +81,96 @@
         </div>
 
         <div class="campo">
-          <label>Linha de Toners (Automático)</label>
+          <label for="armario">Linha de Toners</label>
           <input id="armario" value="TONERS E786 & 4303" readonly class="campo-auto">
         </div>
 
         <div class="campo">
-          <label>Série</label>
-          <input id="serie" placeholder="Número de série">
-        </div>
-
-        <div class="campo">
-          <label>Modelo completo</label>
-          <input id="modeloCompleto" placeholder="Ex: HP LaserJet ...">
-        </div>
-
-        <div class="campo">
-          <label>Modelo</label>
-          <input id="modelo" placeholder="Código do toner">
-        </div>
-
-        <div class="campo">
-          <label>Cor</label>
-          <select id="cor">
-            <option value="">Não identificada</option>
-            <option>Preto</option>
-            <option>Ciano</option>
-            <option>Magenta</option>
-            <option>Amarelo</option>
-            <option>Colorido</option>
+          <label for="modelo">Código de Identificação Toner</label>
+          <select id="modelo">
+            <option value="">Selecione o código</option>
+            <optgroup label="Armário 1 — HP LaserJet Pro 4303 (230X)">
+              <option value="W2300X">W2300X — Preto</option>
+              <option value="W2301X">W2301X — Ciano</option>
+              <option value="W2302X">W2302X — Amarelo</option>
+              <option value="W2303X">W2303X — Magenta</option>
+            </optgroup>
+            <optgroup label="Armário 1 — HP Color LaserJet E786">
+              <option value="W9150MC">W9150MC — Preto</option>
+              <option value="W9151MC">W9151MC — Ciano</option>
+              <option value="W9152MC">W9152MC — Amarelo</option>
+              <option value="W9153MC">W9153MC — Magenta</option>
+            </optgroup>
+            <optgroup label="Armário 1 — Série W2150XC (LaserJet Pro)">
+              <option value="W2150XC">W2150XC — Preto</option>
+              <option value="W2151XC">W2151XC — Ciano</option>
+              <option value="W22151XC">W22151XC — Ciano</option>
+              <option value="W2152XC">W2152XC — Amarelo</option>
+              <option value="W2153XC">W2153XC — Magenta</option>
+            </optgroup>
+            <optgroup label="Armário 2 — HP LaserJet MFP 432">
+              <option value="W1330X">W1330X — Preto</option>
+              <option value="W1330A">W1330A — Preto</option>
+            </optgroup>
+            <optgroup label="Armário 3 — HP Color LaserJet X579">
+              <option value="W9250MC">W9250MC — Preto</option>
+              <option value="W9251MC">W9251MC — Ciano</option>
+              <option value="W9252MC">W9252MC — Amarelo</option>
+              <option value="W9253MC">W9253MC — Magenta</option>
+            </optgroup>
+            <optgroup label="Armário 4 — HP LaserJet E645">
+              <option value="W9004MC">W9004MC — Preto</option>
+            </optgroup>
           </select>
         </div>
 
         <div class="campo">
-          <label>Localidade</label>
+          <label for="cor">Cor</label>
+          <input id="cor" placeholder="Automático" readonly class="campo-auto">
+        </div>
+
+        <div class="campo">
+          <label for="serie">Série</label>
+          <input id="serie" placeholder="Número de série">
+        </div>
+
+        <div class="campo">
+          <label for="modeloCompleto">Modelo completo</label>
+          <input id="modeloCompleto" placeholder="Ex: HP LaserJet Pro">
+        </div>
+
+        <div class="campo">
+          <label for="localidade">Localidade</label>
           <input id="localidade" value="NASP">
         </div>
 
         <div class="campo">
-          <label>Departamento</label>
+          <label for="departamento">Departamento</label>
           <input id="departamento" value="CENTRAL DE CÓPIAS">
         </div>
 
         <div class="campo">
-          <label>Quantidade</label>
+          <label for="quantidade">Quantidade</label>
           <input id="quantidade" type="number" min="1" value="1" required>
         </div>
 
       </div>
 
       <div class="botoes">
-        <button class="salvar" type="submit">Salvar toner</button>
-        <button class="cancelar" type="button" onclick="limparFormulario()">Limpar</button>
+        <button class="btn btn-primario" type="submit">Salvar toner</button>
+        <button class="btn btn-secundario" type="button" onclick="limparFormulario()">Limpar</button>
       </div>
     </form>
   </section>
 
   <section class="painel">
-    <h2>Estoque de toners</h2>
+    <div class="painel-topo">
+      <h2>Estoque de toners</h2>
+      <button class="btn btn-exportar" onclick="exportarCSV()">Exportar para Excel</button>
+    </div>
 
     <div class="filtros">
-      <input id="pesquisa" placeholder="Pesquisar modelo, série ou código...">
+      <input id="pesquisa" placeholder="Pesquisar código, série ou modelo...">
 
       <select id="filtroNumArmario">
         <option value="">Todos os armários</option>
@@ -148,14 +190,6 @@
       </select>
     </div>
 
-    <div class="botoes">
-      <button class="exportar" onclick="exportarCSV()">
-        Exportar para Excel
-      </button>
-    </div>
-
-    <br>
-
     <div class="tabela">
       <table>
         <thead>
@@ -165,7 +199,7 @@
             <th>ARMÁRIO</th>
             <th>SÉRIE</th>
             <th>MODELO COMPLETO</th>
-            <th>MODELO</th>
+            <th>CÓDIGO DE IDENTIFICAÇÃO TONER</th>
             <th>COR</th>
             <th>LOCALIDADE</th>
             <th>DEPARTAMENTO</th>
@@ -181,8 +215,7 @@
 </main>
 
 <footer>
-  Sistema de Controle de Estoque de Toners HP
-  <br>NASP - Central de Cópias
+  Sistema de Controle de Estoque de Toners HP — NASP / Central de Cópias
 </footer>
 
 <script src="script.js"></script>
