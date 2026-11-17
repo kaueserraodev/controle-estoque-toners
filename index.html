@@ -18,7 +18,6 @@
 
     <div class="controle-tema">
       <button type="button" id="btnTema" class="btn-icone-tema" aria-label="Alternar tema" title="Alternar tema">
-        <!-- Ícone de Sol (exibido no tema claro) -->
         <svg id="iconeSol" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -31,7 +30,6 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
 
-        <!-- Ícone de Lua (exibido no tema escuro) -->
         <svg id="iconeLua" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
@@ -113,37 +111,11 @@
           <label for="modelo">Código de Identificação Toner</label>
           <select id="modelo">
             <option value="">Selecione o código</option>
-            <optgroup label="Armário 1 — HP LaserJet Pro 4303 (230X)">
-              <option value="W2300X">W2300X — Preto</option>
-              <option value="W2301X">W2301X — Ciano</option>
-              <option value="W2302X">W2302X — Amarelo</option>
-              <option value="W2303X">W2303X — Magenta</option>
-            </optgroup>
-            <optgroup label="Armário 1 — HP Color LaserJet E786">
-              <option value="W9150MC">W9150MC — Preto</option>
-              <option value="W9151MC">W9151MC — Ciano</option>
-              <option value="W9152MC">W9152MC — Amarelo</option>
-              <option value="W9153MC">W9153MC — Magenta</option>
-            </optgroup>
-            <optgroup label="Armário 1 — Série W2150XC (LaserJet Pro)">
+            <optgroup label="HP Color LaserJet Pro">
               <option value="W2150XC">W2150XC — Preto</option>
               <option value="W2151XC">W2151XC — Ciano</option>
-              <option value="W22151XC">W22151XC — Ciano</option>
               <option value="W2152XC">W2152XC — Amarelo</option>
               <option value="W2153XC">W2153XC — Magenta</option>
-            </optgroup>
-            <optgroup label="Armário 2 — HP LaserJet MFP 432">
-              <option value="W1330X">W1330X — Preto</option>
-              <option value="W1330A">W1330A — Preto</option>
-            </optgroup>
-            <optgroup label="Armário 3 — HP Color LaserJet X579">
-              <option value="W9250MC">W9250MC — Preto</option>
-              <option value="W9251MC">W9251MC — Ciano</option>
-              <option value="W9252MC">W9252MC — Amarelo</option>
-              <option value="W9253MC">W9253MC — Magenta</option>
-            </optgroup>
-            <optgroup label="Armário 4 — HP LaserJet E645">
-              <option value="W9004MC">W9004MC — Preto</option>
             </optgroup>
           </select>
         </div>
@@ -160,7 +132,7 @@
 
         <div class="campo">
           <label for="modeloCompleto">Modelo completo</label>
-          <input id="modeloCompleto" placeholder="Ex: HP LaserJet Pro">
+          <input id="modeloCompleto" value="HP Color LaserJet Pro" placeholder="HP Color LaserJet Pro">
         </div>
 
         <div class="campo">
