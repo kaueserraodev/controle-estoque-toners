@@ -29,46 +29,22 @@ const MAPA_ARMARIOS = {
   "4": "TONERS E645"
 };
 
+const MODELO_PADRAO_IMPRESSORA = "HP Color LaserJet Pro";
+
 const MAPA_CODIGOS = {
-  // Armário 1 - 4303
-  "W2300X": { cor: "Preto", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
-  "W2301X": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
-  "W2302X": { cor: "Amarelo", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
-  "W2303X": { cor: "Magenta", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
-
-  // Armário 1 - E786
-  "W9150MC": { cor: "Preto", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
-  "W9151MC": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
-  "W9152MC": { cor: "Amarelo", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
-  "W9153MC": { cor: "Magenta", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
-
-  // Armário 1 - Série W2150XC
-  "W2150XC": { cor: "Preto", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
-  "W2151XC": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
-  "W22151XC": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
-  "W2152XC": { cor: "Amarelo", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
-  "W2153XC": { cor: "Magenta", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
-
-  // Armário 2 - 432
-  "W1330X": { cor: "Preto", numArmario: "2", modeloCompleto: "HP LaserJet MFP 432" },
-  "W1330A": { cor: "Preto", numArmario: "2", modeloCompleto: "HP LaserJet MFP 432" },
-
-  // Armário 3 - X579
-  "W9250MC": { cor: "Preto", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
-  "W9251MC": { cor: "Ciano", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
-  "W9252MC": { cor: "Amarelo", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
-  "W9253MC": { cor: "Magenta", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
-
-  // Armário 4 - E645
-  "W9004MC": { cor: "Preto", numArmario: "4", modeloCompleto: "HP LaserJet Managed E645" }
+  "W2150XC": { cor: "Preto", numArmario: "1", modeloCompleto: MODELO_PADRAO_IMPRESSORA },
+  "W2151XC": { cor: "Ciano", numArmario: "1", modeloCompleto: MODELO_PADRAO_IMPRESSORA },
+  "W22151XC": { cor: "Ciano", numArmario: "1", modeloCompleto: MODELO_PADRAO_IMPRESSORA },
+  "W2152XC": { cor: "Amarelo", numArmario: "1", modeloCompleto: MODELO_PADRAO_IMPRESSORA },
+  "W2153XC": { cor: "Magenta", numArmario: "1", modeloCompleto: MODELO_PADRAO_IMPRESSORA }
 };
 
 function criarEstoqueInicial() {
   return [
-    { id: 1, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2152-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W2152XC", cor: "Amarelo", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
-    { id: 2, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2150-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W2150XC", cor: "Preto", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
-    { id: 3, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2151-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W22151XC", cor: "Ciano", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
-    { id: 4, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2153-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W2153XC", cor: "Magenta", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 }
+    { id: 1, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2152-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2152XC", cor: "Amarelo", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
+    { id: 2, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2150-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2150XC", cor: "Preto", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
+    { id: 3, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2151-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2151XC", cor: "Ciano", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
+    { id: 4, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2153-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2153XC", cor: "Magenta", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 }
   ];
 }
 
@@ -282,6 +258,7 @@ function limparFormulario() {
   document.getElementById("armario").value = MAPA_ARMARIOS["1"];
   document.getElementById("modelo").value = "";
   document.getElementById("cor").value = "";
+  document.getElementById("modeloCompleto").value = MODELO_PADRAO_IMPRESSORA;
   document.getElementById("localidade").value = "NASP";
   document.getElementById("departamento").value = "CENTRAL DE CÓPIAS";
   document.getElementById("quantidade").value = 1;
