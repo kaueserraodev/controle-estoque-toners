@@ -31,3 +31,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 1. **Clone o repositório:**
    ```bash
    git clone [URL_DO_REPOSITORIO]
+
+---
+
+## Desenvolvido por Kauê Serrão
