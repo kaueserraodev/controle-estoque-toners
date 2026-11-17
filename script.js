@@ -1,4 +1,22 @@
 const CHAVE = "estoque_toners_nasp_v1";
+const CHAVE_TEMA = "tema_estoque_toners_nasp";
+
+// Controle de Tema Claro / Escuro
+const seletorTema = document.getElementById("seletorTema");
+
+function aplicarTema(tema) {
+  const escuro = tema === "escuro";
+  document.body.classList.toggle("tema-escuro", escuro);
+  seletorTema.value = escuro ? "escuro" : "claro";
+}
+
+aplicarTema(localStorage.getItem(CHAVE_TEMA) || "claro");
+
+seletorTema.addEventListener("change", (e) => {
+  const novoTema = e.target.value;
+  localStorage.setItem(CHAVE_TEMA, novoTema);
+  aplicarTema(novoTema);
+});
 
 const MAPA_ARMARIOS = {
   "1": "TONERS E786 & 4303",
