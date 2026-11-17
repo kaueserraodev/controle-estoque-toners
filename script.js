@@ -7,22 +7,47 @@ const MAPA_ARMARIOS = {
   "4": "TONERS E645"
 };
 
+const MAPA_CODIGOS = {
+  // Armário 1 - 4303
+  "W2300X": { cor: "Preto", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
+  "W2301X": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
+  "W2302X": { cor: "Amarelo", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
+  "W2303X": { cor: "Magenta", numArmario: "1", modeloCompleto: "HP Color LaserJet Pro 4303" },
+
+  // Armário 1 - E786
+  "W9150MC": { cor: "Preto", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
+  "W9151MC": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
+  "W9152MC": { cor: "Amarelo", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
+  "W9153MC": { cor: "Magenta", numArmario: "1", modeloCompleto: "HP Color LaserJet Managed E786" },
+
+  // Armário 1 - Série W2150XC
+  "W2150XC": { cor: "Preto", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
+  "W2151XC": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
+  "W22151XC": { cor: "Ciano", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
+  "W2152XC": { cor: "Amarelo", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
+  "W2153XC": { cor: "Magenta", numArmario: "1", modeloCompleto: "HP LaserJet Pro" },
+
+  // Armário 2 - 432
+  "W1330X": { cor: "Preto", numArmario: "2", modeloCompleto: "HP LaserJet MFP 432" },
+  "W1330A": { cor: "Preto", numArmario: "2", modeloCompleto: "HP LaserJet MFP 432" },
+
+  // Armário 3 - X579
+  "W9250MC": { cor: "Preto", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
+  "W9251MC": { cor: "Ciano", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
+  "W9252MC": { cor: "Amarelo", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
+  "W9253MC": { cor: "Magenta", numArmario: "3", modeloCompleto: "HP Color LaserJet Managed X579" },
+
+  // Armário 4 - E645
+  "W9004MC": { cor: "Preto", numArmario: "4", modeloCompleto: "HP LaserJet Managed E645" }
+};
+
 function criarEstoqueInicial() {
-  return Array.from({length: 16}, (_, i) => {
-    const num = String((i % 4) + 1);
-    return {
-      id: i + 1,
-      numArmario: num,
-      armario: MAPA_ARMARIOS[num],
-      serie: "",
-      modeloCompleto: "",
-      modelo: "",
-      cor: "",
-      localidade: "NASP",
-      departamento: "CENTRAL DE CÓPIAS",
-      quantidade: 1
-    };
-  });
+  return [
+    { id: 1, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2152-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W2152XC", cor: "Amarelo", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
+    { id: 2, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2150-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W2150XC", cor: "Preto", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
+    { id: 3, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2151-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W22151XC", cor: "Ciano", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
+    { id: 4, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2153-00001", modeloCompleto: "HP LaserJet Pro", modelo: "W2153XC", cor: "Magenta", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 }
+  ];
 }
 
 let estoque;
@@ -36,10 +61,12 @@ try {
   } else {
     estoque = estoque.map(item => {
       const num = String(item.numArmario || item.prateleira || "1");
+      const infoCodigo = MAPA_CODIGOS[item.modelo];
       return {
         ...item,
         numArmario: num,
-        armario: MAPA_ARMARIOS[num] || ""
+        armario: MAPA_ARMARIOS[num] || "",
+        cor: infoCodigo ? infoCodigo.cor : (item.cor || "")
       };
     });
   }
@@ -49,9 +76,24 @@ try {
 
 let idEditando = null;
 
-// Atualiza automaticamente a linha de toners ao trocar o Nº do Armário
 document.getElementById("numArmario").addEventListener("change", function() {
   document.getElementById("armario").value = MAPA_ARMARIOS[this.value] || "";
+});
+
+document.getElementById("modelo").addEventListener("change", function() {
+  const info = MAPA_CODIGOS[this.value];
+  if (info) {
+    document.getElementById("cor").value = info.cor;
+    document.getElementById("numArmario").value = info.numArmario;
+    document.getElementById("armario").value = MAPA_ARMARIOS[info.numArmario];
+
+    const campoModeloCompleto = document.getElementById("modeloCompleto");
+    if (!campoModeloCompleto.value.trim()) {
+      campoModeloCompleto.value = info.modeloCompleto;
+    }
+  } else {
+    document.getElementById("cor").value = "";
+  }
 });
 
 function salvarDados() {
@@ -66,6 +108,15 @@ function escapar(valor) {
     '"': "&quot;",
     "'": "&#39;"
   })[c]);
+}
+
+function classePontoCor(cor) {
+  const c = (cor || "").toLowerCase();
+  if (c === "preto") return "ponto-preto";
+  if (c === "ciano") return "ponto-ciano";
+  if (c === "magenta") return "ponto-magenta";
+  if (c === "amarelo") return "ponto-amarelo";
+  return "ponto-padrao";
 }
 
 function renderizar() {
@@ -90,13 +141,18 @@ function renderizar() {
         <td>${i + 1}</td>
         <td>${escapar(t.numArmario)}</td>
         <td>${escapar(MAPA_ARMARIOS[t.numArmario] || t.armario || "-")}</td>
-        <td>${escapar(t.serie)}</td>
-        <td>${escapar(t.modeloCompleto)}</td>
-        <td>${escapar(t.modelo)}</td>
-        <td>${escapar(t.cor || "A identificar")}</td>
+        <td>${escapar(t.serie || "-")}</td>
+        <td>${escapar(t.modeloCompleto || "-")}</td>
+        <td><strong>${escapar(t.modelo || "-")}</strong></td>
+        <td>
+          <span class="indicador-cor">
+            <span class="ponto-cor ${classePontoCor(t.cor)}"></span>
+            ${escapar(t.cor || "A identificar")}
+          </span>
+        </td>
         <td>${escapar(t.localidade)}</td>
         <td>${escapar(t.departamento)}</td>
-        <td>${Number(t.quantidade)}</td>
+        <td><strong>${Number(t.quantidade)}</strong></td>
         <td>
           <div class="acoes">
             <button class="editar" onclick="editar(${t.id})">Editar</button>
@@ -167,12 +223,19 @@ function editar(id) {
   idEditando = id;
 
   const num = t.numArmario || "1";
+  const selectCodigo = document.getElementById("modelo");
+
+  if (t.modelo && !Array.from(selectCodigo.options).some(opt => opt.value === t.modelo)) {
+    const optExtra = new Option(t.modelo, t.modelo);
+    selectCodigo.add(optExtra);
+  }
+
   document.getElementById("numArmario").value = num;
   document.getElementById("armario").value = MAPA_ARMARIOS[num];
+  selectCodigo.value = t.modelo || "";
+  document.getElementById("cor").value = MAPA_CODIGOS[t.modelo]?.cor || t.cor || "";
   document.getElementById("serie").value = t.serie;
   document.getElementById("modeloCompleto").value = t.modeloCompleto;
-  document.getElementById("modelo").value = t.modelo;
-  document.getElementById("cor").value = t.cor;
   document.getElementById("localidade").value = t.localidade;
   document.getElementById("departamento").value = t.departamento;
   document.getElementById("quantidade").value = t.quantidade;
@@ -195,6 +258,8 @@ function limparFormulario() {
   document.getElementById("formulario").reset();
   document.getElementById("numArmario").value = "1";
   document.getElementById("armario").value = MAPA_ARMARIOS["1"];
+  document.getElementById("modelo").value = "";
+  document.getElementById("cor").value = "";
   document.getElementById("localidade").value = "NASP";
   document.getElementById("departamento").value = "CENTRAL DE CÓPIAS";
   document.getElementById("quantidade").value = 1;
@@ -207,7 +272,7 @@ function limparFormulario() {
 
 function exportarCSV() {
   const colunas = [
-    "ITEM", "Nº ARMÁRIO", "ARMÁRIO", "SERIE", "MODELO COMPLETO", "MODELO",
+    "ITEM", "Nº ARMÁRIO", "ARMÁRIO", "SERIE", "MODELO COMPLETO", "CÓDIGO DE IDENTIFICAÇÃO TONER",
     "COR", "LOCALIDADE", "DEPARTAMENTO", "QUANTIDADE"
   ];
 
