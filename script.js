@@ -305,6 +305,17 @@ function exportarCSV() {
 document.getElementById("pesquisa")
   .addEventListener("input", renderizar);
 
+document.getElementById("pesquisa")
+  .addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      renderizar();
+    }
+  });
+
+document.getElementById("btnPesquisar")
+  .addEventListener("click", renderizar);
+
 document.getElementById("filtroNumArmario")
   .addEventListener("change", renderizar);
 
