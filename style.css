@@ -1,0 +1,214 @@
+:root {
+  --azul: #123b5d;
+  --azul2: #176b9b;
+  --fundo: #f1f5f9;
+  --branco: #ffffff;
+  --texto: #243447;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+header {
+  background: var(--azul);
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 8px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 25px auto;
+  padding: 0 18px;
+}
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+.card h3 {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.card small {
+  display: block;
+  color: #94a3b8;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 28px;
+  color: var(--azul2);
+}
+
+.painel {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+h2 {
+  color: var(--azul);
+  margin-top: 0;
+}
+
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.campo label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+input, select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+input:focus, select:focus {
+  outline: 2px solid #93c5fd;
+  border-color: var(--azul2);
+}
+
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+button {
+  border: none;
+  padding: 11px 17px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.salvar {
+  background: var(--azul2);
+  color: white;
+}
+
+.exportar {
+  background: #15803d;
+  color: white;
+}
+
+.cancelar {
+  background: #64748b;
+  color: white;
+}
+
+.editar {
+  background: #f59e0b;
+  color: white;
+}
+
+.excluir {
+  background: #dc2626;
+  color: white;
+}
+
+button:hover {
+  opacity: .85;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filtros input, .filtros select {
+  max-width: 260px;
+}
+
+.tabela {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1120px;
+}
+
+th {
+  background: var(--azul);
+  color: white;
+  padding: 13px 10px;
+  font-size: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+tr:hover {
+  background: #eff6ff;
+}
+
+.acoes {
+  display: flex;
+  gap: 5px;
+}
+
+.acoes button {
+  padding: 7px 9px;
+  font-size: 12px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+@media(max-width: 600px) {
+  header h1 {
+    font-size: 21px;
+  }
+}
