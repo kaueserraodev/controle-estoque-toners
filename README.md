@@ -34,4 +34,4 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ---
 
-## Desenvolvido por Kauê Serrão
+## Desenvolvido por Kauê Serrão.
