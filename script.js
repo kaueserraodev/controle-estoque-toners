@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://wkyxbpuronxldycuejeb.supabase.co";
-const SUPABASE_KEY = "COLE_SUA_ANON_PUBLIC_KEY_AQUI";
+const SUPABASE_KEY = "sb_publishable_I26XAGQOKH7ojKbcCW7AYA_n4yRYATA";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const CHAVE_TEMA = "tema_estoque_toners_nasp";
