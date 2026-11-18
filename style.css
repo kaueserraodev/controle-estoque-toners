@@ -30,7 +30,7 @@ body.tema-escuro {
   --secundaria: #38bdf8;
   --fundo: #0b1120;
   --superficie: #1e293b;
-  --texto: #f1f5f9;
+  --texto: #f1f9ff;
   --texto-label: #cbd5e1;
   --texto-mutado: #94a3b8;
   --borda: #334155;
@@ -309,7 +309,7 @@ input:focus, select:focus {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1150px;
+  min-width: 1180px;
 }
 
 th {
@@ -352,6 +352,90 @@ tbody tr:hover {
 .ponto-magenta { background-color: #db2777; }
 .ponto-amarelo { background-color: #eab308; }
 .ponto-padrao { background-color: #94a3b8; }
+
+.qtd-celula {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-lapis-qtd {
+  background-color: var(--btn-editar-bg);
+  color: var(--secundaria);
+  border: 1px solid var(--borda-input);
+  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-lapis-qtd:hover {
+  background-color: var(--btn-editar-hover);
+  transform: scale(1.06);
+}
+
+.qtd-editor-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.qtd-editor-inline input {
+  width: 52px;
+  padding: 4px 6px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-qtd-step,
+.btn-qtd-ok,
+.btn-qtd-cancel {
+  border: 1px solid var(--borda-input);
+  border-radius: 4px;
+  height: 26px;
+  min-width: 26px;
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-qtd-step {
+  background-color: var(--btn-editar-bg);
+  color: var(--primaria);
+}
+
+.btn-qtd-step:hover {
+  background-color: var(--btn-editar-hover);
+}
+
+.btn-qtd-ok {
+  background-color: #166534;
+  border-color: #166534;
+  color: #ffffff;
+}
+
+.btn-qtd-ok:hover {
+  background-color: #14532d;
+}
+
+.btn-qtd-cancel {
+  background-color: var(--btn-sec-bg);
+  color: var(--texto-mutado);
+}
+
+.btn-qtd-cancel:hover {
+  background-color: var(--btn-sec-hover);
+}
 
 .acoes {
   display: flex;
