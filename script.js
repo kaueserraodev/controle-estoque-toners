@@ -1,4 +1,7 @@
-const CHAVE = "estoque_toners_nasp_v1";
+const SUPABASE_URL = "https://wkyxbpuronxldycuejeb.supabase.co";
+const SUPABASE_KEY = "COLE_SUA_ANON_PUBLIC_KEY_AQUI";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const CHAVE_TEMA = "tema_estoque_toners_nasp";
 
 // Controle de Tema Claro (Sol) / Escuro (Lua)
@@ -39,40 +42,36 @@ const MAPA_CODIGOS = {
   "W2153XC": { cor: "Magenta", numArmario: "1", modeloCompleto: MODELO_PADRAO_IMPRESSORA }
 };
 
-function criarEstoqueInicial() {
-  return [
-    { id: 1, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2152-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2152XC", cor: "Amarelo", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
-    { id: 2, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2150-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2150XC", cor: "Preto", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
-    { id: 3, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2151-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2151XC", cor: "Ciano", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 },
-    { id: 4, numArmario: "1", armario: MAPA_ARMARIOS["1"], serie: "W2153-00001", modeloCompleto: MODELO_PADRAO_IMPRESSORA, modelo: "W2153XC", cor: "Magenta", localidade: "NASP", departamento: "CENTRAL DE CÓPIAS", quantidade: 1 }
-  ];
-}
-
-let estoque;
-
-try {
-  const salvo = localStorage.getItem(CHAVE);
-  estoque = salvo ? JSON.parse(salvo) : criarEstoqueInicial();
-
-  if (!Array.isArray(estoque)) {
-    estoque = criarEstoqueInicial();
-  } else {
-    estoque = estoque.map(item => {
-      const num = String(item.numArmario || item.prateleira || "1");
-      const infoCodigo = MAPA_CODIGOS[item.modelo];
-      return {
-        ...item,
-        numArmario: num,
-        armario: MAPA_ARMARIOS[num] || "",
-        cor: infoCodigo ? infoCodigo.cor : (item.cor || "")
-      };
-    });
-  }
-} catch {
-  estoque = criarEstoqueInicial();
-}
-
+let estoque = [];
 let idEditando = null;
+
+async function carregarEstoque() {
+  const { data, error } = await db
+    .from("estoque_toners")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao carregar estoque:", error);
+    alert("Erro ao conectar com o banco de dados. Verifique a Key do Supabase e se a tabela foi criada.");
+    return;
+  }
+
+  estoque = (data || []).map(item => ({
+    id: item.id,
+    numArmario: item.num_armario || "1",
+    armario: item.armario || MAPA_ARMARIOS[item.num_armario] || "",
+    serie: item.serie || "",
+    modeloCompleto: item.modelo_completo || "",
+    modelo: item.modelo || "",
+    cor: item.cor || "",
+    localidade: item.localidade || "NASP",
+    departamento: item.departamento || "CENTRAL DE CÓPIAS",
+    quantidade: Number(item.quantidade || 1)
+  }));
+
+  renderizar();
+}
 
 document.getElementById("numArmario").addEventListener("change", function() {
   document.getElementById("armario").value = MAPA_ARMARIOS[this.value] || "";
@@ -93,10 +92,6 @@ document.getElementById("modelo").addEventListener("change", function() {
     document.getElementById("cor").value = "";
   }
 });
-
-function salvarDados() {
-  localStorage.setItem(CHAVE, JSON.stringify(estoque));
-}
 
 function escapar(valor) {
   return String(valor ?? "").replace(/[&<>"']/g, c => ({
@@ -179,39 +174,52 @@ function renderizar() {
   document.getElementById("armario4").textContent = contarPorNumArmario("4");
 }
 
-document.getElementById("formulario").addEventListener("submit", e => {
+document.getElementById("formulario").addEventListener("submit", async e => {
   e.preventDefault();
 
   const num = document.getElementById("numArmario").value;
-  const dados = {
-    numArmario: num,
-    armario: MAPA_ARMARIOS[num],
-    serie: document.getElementById("serie").value.trim(),
-    modeloCompleto: document.getElementById("modeloCompleto").value.trim(),
-    modelo: document.getElementById("modelo").value.trim(),
-    cor: document.getElementById("cor").value,
-    localidade: document.getElementById("localidade").value.trim(),
-    departamento: document.getElementById("departamento").value.trim(),
-    quantidade: Number(document.getElementById("quantidade").value)
-  };
+  const quantidade = Number(document.getElementById("quantidade").value);
 
-  if (!Number.isInteger(dados.quantidade) || dados.quantidade < 1) {
+  if (!Number.isInteger(quantidade) || quantidade < 1) {
     alert("Informe uma quantidade válida.");
     return;
   }
 
+  const registroBanco = {
+    num_armario: num,
+    armario: MAPA_ARMARIOS[num],
+    serie: document.getElementById("serie").value.trim(),
+    modelo_completo: document.getElementById("modeloCompleto").value.trim(),
+    modelo: document.getElementById("modelo").value.trim(),
+    cor: document.getElementById("cor").value,
+    localidade: document.getElementById("localidade").value.trim(),
+    departamento: document.getElementById("departamento").value.trim(),
+    quantidade: quantidade
+  };
+
+  let erro;
+
   if (idEditando !== null) {
-    estoque = estoque.map(t =>
-      t.id === idEditando ? {...t, ...dados} : t
-    );
+    const res = await db
+      .from("estoque_toners")
+      .update(registroBanco)
+      .eq("id", idEditando);
+    erro = res.error;
   } else {
-    const novoId = Math.max(0, ...estoque.map(t => t.id)) + 1;
-    estoque.push({id: novoId, ...dados});
+    const res = await db
+      .from("estoque_toners")
+      .insert([registroBanco]);
+    erro = res.error;
   }
 
-  salvarDados();
+  if (erro) {
+    console.error("Erro ao salvar:", erro);
+    alert("Não foi possível salvar no banco de dados.");
+    return;
+  }
+
   limparFormulario();
-  renderizar();
+  await carregarEstoque();
 });
 
 function editar(id) {
@@ -238,18 +246,25 @@ function editar(id) {
   document.getElementById("departamento").value = t.departamento;
   document.getElementById("quantidade").value = t.quantidade;
 
-  document.getElementById("tituloFormulario").textContent =
-    "Editar toner";
-
+  document.getElementById("tituloFormulario").textContent = "Editar toner";
   window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-function excluir(id) {
+async function excluir(id) {
   if (!confirm("Deseja realmente excluir este toner?")) return;
 
-  estoque = estoque.filter(t => t.id !== id);
-  salvarDados();
-  renderizar();
+  const { error } = await db
+    .from("estoque_toners")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Erro ao excluir:", error);
+    alert("Não foi possível excluir do banco de dados.");
+    return;
+  }
+
+  await carregarEstoque();
 }
 
 function limparFormulario() {
@@ -264,9 +279,7 @@ function limparFormulario() {
   document.getElementById("quantidade").value = 1;
 
   idEditando = null;
-
-  document.getElementById("tituloFormulario").textContent =
-    "Cadastrar toner";
+  document.getElementById("tituloFormulario").textContent = "Cadastrar toner";
 }
 
 function exportarCSV() {
@@ -286,11 +299,7 @@ function exportarCSV() {
     ).join(";"))
     .join("\r\n");
 
-  const arquivo = new Blob(
-    ["\uFEFF" + csv],
-    {type: "text/csv;charset=utf-8;"}
-  );
-
+  const arquivo = new Blob(["\uFEFF" + csv], {type: "text/csv;charset=utf-8;"});
   const url = URL.createObjectURL(arquivo);
   const link = document.createElement("a");
 
@@ -301,24 +310,15 @@ function exportarCSV() {
   URL.revokeObjectURL(url);
 }
 
-document.getElementById("pesquisa")
-  .addEventListener("input", renderizar);
+document.getElementById("pesquisa").addEventListener("input", renderizar);
+document.getElementById("pesquisa").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    renderizar();
+  }
+});
+document.getElementById("btnPesquisar").addEventListener("click", renderizar);
+document.getElementById("filtroNumArmario").addEventListener("change", renderizar);
+document.getElementById("filtroCor").addEventListener("change", renderizar);
 
-document.getElementById("pesquisa")
-  .addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      renderizar();
-    }
-  });
-
-document.getElementById("btnPesquisar")
-  .addEventListener("click", renderizar);
-
-document.getElementById("filtroNumArmario")
-  .addEventListener("change", renderizar);
-
-document.getElementById("filtroCor")
-  .addEventListener("change", renderizar);
-
-renderizar();
+carregarEstoque();
