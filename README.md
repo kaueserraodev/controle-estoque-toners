@@ -38,9 +38,10 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
    Clone o repositório e abra o arquivo `index.html` no navegador:
    ```bash
    git clone [https://kaueserraodev.github.io/controle-estoque-toners/](https://kaueserraodev.github.io/controle-estoque-toners/)
-
    --
+---
 
+## Desenvolvido por Kauê Serrão.
 
 
    
