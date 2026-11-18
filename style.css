@@ -93,7 +93,6 @@ header p {
   letter-spacing: 0.3px;
 }
 
-/* Ícone de Sol / Lua no canto superior direito */
 .controle-tema {
   margin-left: auto;
   display: flex;
@@ -135,7 +134,6 @@ header p {
   padding: 0 20px;
 }
 
-/* Cards de Resumo */
 .resumo {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -181,7 +179,6 @@ header p {
   color: var(--primaria);
 }
 
-/* Painéis */
 .painel {
   background: var(--superficie);
   padding: 22px 24px;
@@ -208,7 +205,6 @@ h2 {
   color: var(--primaria);
 }
 
-/* Formulário */
 .formulario {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -247,7 +243,6 @@ input:focus, select:focus {
   cursor: default;
 }
 
-/* Botões */
 .botoes {
   display: flex;
   flex-wrap: wrap;
@@ -293,7 +288,6 @@ input:focus, select:focus {
   background-color: #14532d;
 }
 
-/* Filtros */
 .filtros {
   display: flex;
   flex-wrap: wrap;
@@ -306,7 +300,6 @@ input:focus, select:focus {
   max-width: 280px;
 }
 
-/* Tabela */
 .tabela {
   overflow-x: auto;
   border: 1px solid var(--borda);
@@ -339,7 +332,6 @@ tbody tr:hover {
   background-color: var(--linha-hover);
 }
 
-/* Indicador discreto de cor na tabela */
 .indicador-cor {
   display: inline-flex;
   align-items: center;
@@ -361,7 +353,6 @@ tbody tr:hover {
 .ponto-amarelo { background-color: #eab308; }
 .ponto-padrao { background-color: #94a3b8; }
 
-/* Ações da tabela */
 .acoes {
   display: flex;
   gap: 6px;
