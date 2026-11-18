@@ -44,6 +44,7 @@ const MAPA_CODIGOS = {
 
 let estoque = [];
 let idEditando = null;
+let idEditandoQtd = null;
 
 async function carregarEstoque() {
   const { data, error } = await db
@@ -67,7 +68,7 @@ async function carregarEstoque() {
     cor: item.cor || "",
     localidade: item.localidade || "NASP",
     departamento: item.departamento || "CENTRAL DE CÓPIAS",
-    quantidade: Number(item.quantidade || 1)
+    quantidade: Number(item.quantidade ?? 0)
   }));
 
   renderizar();
@@ -112,6 +113,80 @@ function classePontoCor(cor) {
   return "ponto-padrao";
 }
 
+function abrirEditorQtd(id) {
+  idEditandoQtd = id;
+  renderizar();
+  const input = document.getElementById(`input-qtd-${id}`);
+  if (input) {
+    input.focus();
+    input.select();
+  }
+}
+
+function fecharEditorQtd() {
+  idEditandoQtd = null;
+  renderizar();
+}
+
+function alterarValorQtd(id, delta) {
+  const input = document.getElementById(`input-qtd-${id}`);
+  if (!input) return;
+  const atual = Number(input.value || 0);
+  const novo = Math.max(0, atual + delta);
+  input.value = novo;
+}
+
+async function salvarQtdInline(id) {
+  const input = document.getElementById(`input-qtd-${id}`);
+  if (!input) return;
+
+  const novaQtd = Number(input.value);
+  if (!Number.isInteger(novaQtd) || novaQtd < 0) {
+    alert("Informe uma quantidade válida (0 ou maior).");
+    return;
+  }
+
+  const { error } = await db
+    .from("estoque_toners")
+    .update({ quantidade: novaQtd })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Erro ao atualizar quantidade:", error);
+    alert("Não foi possível atualizar a quantidade.");
+    return;
+  }
+
+  idEditandoQtd = null;
+  await carregarEstoque();
+}
+
+function renderizarCelulaQuantidade(t) {
+  if (idEditandoQtd === t.id) {
+    return `
+      <div class="qtd-editor-inline">
+        <button type="button" class="btn-qtd-step" onclick="alterarValorQtd(${t.id}, -1)" title="Diminuir">−</button>
+        <input type="number" id="input-qtd-${t.id}" min="0" value="${Number(t.quantidade)}"
+               onkeydown="if(event.key==='Enter'){event.preventDefault();salvarQtdInline(${t.id});}else if(event.key==='Escape'){fecharEditorQtd();}">
+        <button type="button" class="btn-qtd-step" onclick="alterarValorQtd(${t.id}, 1)" title="Aumentar">+</button>
+        <button type="button" class="btn-qtd-ok" onclick="salvarQtdInline(${t.id})" title="Salvar quantidade">✓</button>
+        <button type="button" class="btn-qtd-cancel" onclick="fecharEditorQtd()" title="Cancelar">✕</button>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="qtd-celula">
+      <strong>${Number(t.quantidade)}</strong>
+      <button type="button" class="btn-lapis-qtd" onclick="abrirEditorQtd(${t.id})" title="Alterar quantidade" aria-label="Alterar quantidade">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+        </svg>
+      </button>
+    </div>
+  `;
+}
+
 function renderizar() {
   const busca = document.getElementById("pesquisa").value.toLowerCase();
   const numArmario = document.getElementById("filtroNumArmario").value;
@@ -145,7 +220,7 @@ function renderizar() {
         </td>
         <td>${escapar(t.localidade)}</td>
         <td>${escapar(t.departamento)}</td>
-        <td><strong>${Number(t.quantidade)}</strong></td>
+        <td>${renderizarCelulaQuantidade(t)}</td>
         <td>
           <div class="acoes">
             <button class="editar" onclick="editar(${t.id})">Editar</button>
@@ -180,7 +255,7 @@ document.getElementById("formulario").addEventListener("submit", async e => {
   const num = document.getElementById("numArmario").value;
   const quantidade = Number(document.getElementById("quantidade").value);
 
-  if (!Number.isInteger(quantidade) || quantidade < 1) {
+  if (!Number.isInteger(quantidade) || quantidade < 0) {
     alert("Informe uma quantidade válida.");
     return;
   }
@@ -227,6 +302,7 @@ function editar(id) {
   if (!t) return;
 
   idEditando = id;
+  idEditandoQtd = null;
 
   const num = t.numArmario || "1";
   const selectCodigo = document.getElementById("modelo");
