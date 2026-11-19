@@ -1,10 +1,10 @@
-# 🖨️ Controle de Estoque de Toners — NASP / Central de Cópias
+#  Controle de Estoque de Toners — NASP / Central de Cópias
 
 Sistema web desenvolvido para gerenciar o estoque de toners HP da Central de Cópias (NASP), permitindo o controle sincronizado em tempo real entre diferentes computadores, visualização rápida por armário e exportação de relatórios.
 
 ---
 
-## 📌 Sobre o Projeto
+##  Sobre o Projeto
 
 O **Controle de Estoque de Toners** foi criado para facilitar a rotina operacional da Central de Cópias, centralizando a contagem por armário, código de identificação e cor, além de manter os dados sincronizados na nuvem para acesso simultâneo da equipe.
 
@@ -18,7 +18,7 @@ O **Controle de Estoque de Toners** foi criado para facilitar a rotina operacion
 
 ---
 
-## 🛠️ Como foi feito
+##  Como foi feito
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
@@ -29,7 +29,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ---
 
-## 🚀 Como usar
+##  Como usar
 
 1. **Acesso online (GitHub Pages):**
    Basta abrir o link publicado no GitHub Pages em qualquer computador ou dispositivo conectado à internet para visualizar e atualizar o estoque compartilhado.
